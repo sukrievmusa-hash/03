@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Women of Sunnah — ателье, Алматы</title>
+<meta name="description" content="Джилбабы, абайи, химары и никабы. Пошив на заказ в любой расцветке. Заказ через WhatsApp.">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf7f4;--card:#fff;--line:#ece4dd;--text:#2b2326;--muted:#7d7076;--accent:#8a5a63;--accent-l:#f4e9e8;--green:#25a55f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding-bottom:80px}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+button{font-family:inherit;cursor:pointer}
+
+/* шапка */
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top{display:flex;align-items:center;justify-content:space-between;height:60px;gap:12px}
+.brand{font-weight:700;font-size:18px;text-decoration:none}
+.brand small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.cart-btn{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:10px 14px;font-weight:600;font-size:14px;display:flex;gap:8px;align-items:center}
+.cart-btn b{background:#fff;color:var(--accent);border-radius:20px;min-width:22px;padding:0 6px;font-size:12px;line-height:22px}
+
+/* вступление */
+.intro{padding:28px 0 8px}
+.intro h1{font-size:clamp(24px,4vw,32px);line-height:1.2;margin-bottom:8px}
+.intro p{color:var(--muted);max-width:620px}
+.info{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.info span{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:6px 12px;font-size:13px}
+
+/* как заказать */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:22px 0}
+.how div{background:var(--accent-l);border-radius:14px;padding:14px;font-size:14px}
+.how b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;margin-bottom:6px}
+@media(max-width:600px){.how{grid-template-columns:1fr}.how div{display:flex;gap:10px;align-items:center}.how b{margin:0;flex:none}}
+
+/* фильтры */
+h2{font-size:22px;margin:26px 0 12px}
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px}
+.filters button{flex:none;border:1px solid var(--line);background:var(--card);border-radius:20px;padding:8px 16px;font-size:14px;color:var(--text)}
+.filters button.on{background:var(--text);color:#fff;border-color:var(--text)}
+
+/* товары */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#fff}
+.card .b{padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{font-size:16px;line-height:1.3}
+.card p{font-size:13px;color:var(--muted);flex:1}
+.price{font-size:20px;font-weight:700}
+label.sel{font-size:12px;color:var(--muted);display:grid;gap:3px}
+select,input,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:15px Manrope,sans-serif;background:#fff;color:var(--text)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.add{background:var(--text);color:#fff;border:none;border-radius:10px;padding:12px;font-weight:600;font-size:15px}
+.add.ok{background:var(--green)}
+@media(max-width:520px){.grid{grid-template-columns:1fr 1fr;gap:10px}.card .b{padding:10px}.card h3{font-size:14px}.card p{display:none}.two{grid-template-columns:1fr}.price{font-size:17px}select{padding:8px;font-size:14px}}
+
+/* пошив */
+.custom{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:10px}
+.custom h2{margin:0 0 6px}
+.custom p{color:var(--muted);font-size:14px}
+.custom form{display:grid;gap:8px}
+@media(max-width:700px){.custom{grid-template-columns:1fr}}
+.green{background:var(--green);color:#fff;border:none;border-radius:10px;padding:13px;font-weight:600;font-size:15px}
+
+/* вопросы */
+details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);font-size:14px;margin-top:8px}
+
+footer{border-top:1px solid var(--line);margin-top:36px;padding:24px 0;font-size:14px;color:var(--muted)}
+footer .row{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer a{color:var(--accent);font-weight:600;text-decoration:none;margin-right:14px}
+
+/* нижняя панель корзины */
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:10px 16px;display:none;z-index:25;box-shadow:0 -6px 20px rgba(0,0,0,.06)}
+.bar.on{display:block}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0}
+.bar span{font-size:14px;color:var(--muted)}
+.bar b{display:block;font-size:18px;color:var(--text)}
+.bar button{background:var(--accent);color:#fff;border:none;border-radius:10px;padding:12px 20px;font-weight:600;font-size:15px}
+
+/* корзина */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:40}
+.ov.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--bg);z-index:50;transform:translateX(100%);transition:.25s;display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);background:var(--card)}
+.dh h3{font-size:18px}
+.x{border:none;background:none;font-size:28px;line-height:1;color:var(--muted)}
+.db{flex:1;overflow:auto;padding:12px 16px}
+.item{display:flex;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px;font-size:14px}
+.item img{width:60px;height:60px;border-radius:8px;object-fit:cover}
+.item .t{flex:1}
+.item small{display:block;color:var(--muted)}
+.q{display:flex;align-items:center;gap:10px;margin-top:6px}
+.q button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:16px}
+.empty{text-align:center;color:var(--muted);padding:30px 0}
+.of{display:grid;gap:8px;margin-top:14px}
+.of h4{font-size:16px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg label{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 4px;text-align:center;font-size:13px;cursor:pointer}
+.seg input{display:none}
+.seg label:has(input:checked){border-color:var(--accent);background:var(--accent-l);font-weight:600}
+.df{padding:12px 16px;border-top:1px solid var(--line);background:var(--card)}
+.sum{display:flex;justify-content:space-between;font-size:16px;margin-bottom:10px}
+.sum b{font-size:20px}
+.df .green{width:100%}
+.hint{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
+
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:60}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+
+<header><div class="wrap top">
+  <a href="#" class="brand">Women of Sunnah<small>Швейное ателье · Алматы</small></a>
+  <button class="cart-btn" onclick="openCart()">Корзина <b id="cnt">0</b></button>
+</div></header>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>Джилбабы, абайи, химары и никабы</h1>
+    <p>Шьём сами, в Алматы. Можно выбрать готовую модель или заказать пошив в нужном цвете и по вашим меркам.</p>
+    <div class="info"><span>🕐 Заказы принимаем круглосуточно</span><span>🎨 Пошив в любой расцветке</span><span>📦 Доставка по Казахстану</span></div>
+  </section>
+
+  <div class="how">
+    <div><b>1</b> Выберите модель, размер и цвет</div>
+    <div><b>2</b> Нажмите «В корзину», затем «Оформить»</div>
+    <div><b>3</b> Заказ уйдёт нам в WhatsApp — мы ответим</div>
+  </div>
+
+  <h2 id="catalog">Каталог</h2>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+
+  <section class="custom" id="custom">
+    <div>
+      <h2>Пошив на заказ</h2>
+      <p>Нужен другой цвет, длина или своя модель? Заполните форму — мы напишем в WhatsApp, подберём ткань и скажем цену.</p>
+    </div>
+    <form onsubmit="sendCustom(event)">
+      <input id="cName" placeholder="Имя" required>
+      <input id="cPhone" type="tel" placeholder="Телефон" required>
+      <select id="cType"><option>Джилбаб</option><option>Абайя</option><option>Химар</option><option>Никаб</option><option>Другое</option></select>
+      <div class="two"><input id="cH" inputmode="numeric" placeholder="Рост, см"><input id="cB" inputmode="numeric" placeholder="Обхват груди, см"></div>
+      <input id="cColor" placeholder="Цвет">
+      <textarea id="cNote" rows="2" placeholder="Пожелания"></textarea>
+      <button class="green">Отправить в WhatsApp</button>
+    </form>
+  </section>
+
+  <h2>Вопросы</h2>
+  <details><summary>Как узнать свой размер?</summary><p>Нужны рост и обхват груди. Если не уверены — выберите «По меркам» и напишите их в комментарии к заказу.</p></details>
+  <details><summary>Можно другой цвет?</summary><p>Да. Выберите «Другой цвет» и напишите, какой нужен.</p></details>
+  <details><summary>Как оплатить и сколько ждать?</summary><p>Оплату и сроки подтвердим в WhatsApp после того, как получим заказ.</p></details>
+</main>
+
+<footer><div class="wrap row">
+  <div>Women of Sunnah · Алматы</div>
+  <div><a href="https://instagram.com/womenofsunnah.kz" target="_blank" rel="noopener">Instagram</a><a href="#" onclick="wa('Ассаляму алейкум! У меня вопрос.');return false">WhatsApp</a></div>
+</div></footer>
+
+<div class="bar" id="bar"><div class="wrap">
+  <div><span>В корзине <span id="barCnt">0</span> шт.</span><b id="barSum">0 ₸</b></div>
+  <button onclick="openCart()">Оформить</button>
+</div></div>
+
+<div class="ov" id="ov" onclick="closeCart()"></div>
+<aside class="drawer" id="drawer">
+  <div class="dh"><h3>Корзина</h3><button class="x" onclick="closeCart()" aria-label="Закрыть">×</button></div>
+  <div class="db">
+    <div id="items"></div>
+    <form class="of" id="orderForm" onsubmit="sendOrder(event)">
+      <h4>Куда отправить заказ</h4>
+      <input id="oName" placeholder="Имя" required>
+      <input id="oPhone" type="tel" placeholder="Телефон" required>
+      <div class="seg">
+        <label><input type="radio" name="dlv" value="Доставка по Алматы" checked>По Алматы</label>
+        <label><input type="radio" name="dlv" value="Доставка по Казахстану">По КЗ</label>
+        <label><input type="radio" name="dlv" value="Самовывоз">Самовывоз</label>
+      </div>
+      <input id="oAddr" placeholder="Город, адрес">
+      <textarea id="oNote" rows="2" placeholder="Комментарий (рост, мерки, пожелания)"></textarea>
+    </form>
+  </div>
+  <div class="df">
+    <div class="sum"><span>Итого</span><b id="sum">0 ₸</b></div>
+    <button class="green" form="orderForm">Отправить заказ в WhatsApp</button>
+    <div class="hint">Откроется WhatsApp с готовым текстом заказа</div>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// TODO: номер WhatsApp ателье — международный формат, без + и пробелов
+const WA_NUMBER = "77000000000";
+
+const P = [
+ {id:1,cat:"Джилбабы",name:"Джилбаб-двойка, синий",desc:"Накидка и юбка, свободный крой",price:18500,img:"images/jilbab-siniy.jpg",colors:["Синий","Чёрный","Другой цвет"]},
+ {id:2,cat:"Абайи",name:"Абайя с воланами, серая",desc:"Воланы по низу и на рукавах",price:19900,img:"images/abaya-volany.jpg",colors:["Серый","Другой цвет"]},
+ {id:3,cat:"Абайи",name:"Абайя с узорными рукавами",desc:"Чёрная, рукава из светлой ткани с принтом",price:18500,img:"images/abaya-uzor.jpg",colors:["Чёрный/белый","Другой цвет"]},
+ {id:4,cat:"Абайи",name:"Абайя «батвинг», шоколад",desc:"Рукав «летучая мышь»",price:14800,img:"images/abaya-batving.jpg",colors:["Шоколад","Чёрный","Другой цвет"]},
+ {id:5,cat:"Химары",name:"Длинный химар, пудровый",desc:"Хорошо закрывает фигуру",price:15400,img:"images/himar-pudra.jpg",colors:["Пудровый","Другой цвет"]},
+ {id:6,cat:"Никабы",name:"Никаб классический, без перегородки",desc:"Шьём в любой расцветке",price:3200,img:"images/nikab.jpg",colors:["Пудровый","Чёрный","Другой цвет"],noSize:true}
+];
+const SIZES=["S","M","L","XL","По меркам"];
+const fmt=n=>n.toLocaleString("ru-RU")+" ₸";
+const $=id=>document.getElementById(id);
+let cart=[],filter="Все";
+try{cart=JSON.parse(localStorage.getItem("wos_cart"))||[]}catch(e){}
+function save(){try{localStorage.setItem("wos_cart",JSON.stringify(cart))}catch(e){}}
+
+function renderFilters(){
+  const cats=["Все",...new Set(P.map(p=>p.cat))];
+  $("filters").innerHTML=cats.map(c=>`<button class="${c===filter?"on":""}" onclick="setFilter('${c}')">${c}</button>`).join("");
+}
+function setFilter(c){filter=c;renderFilters();renderGrid()}
+function renderGrid(){
+  $("grid").innerHTML=P.filter(p=>filter==="Все"||p.cat===filter).map(p=>`
+  <div class="card"><img src="${p.img}" alt="${p.name}" loading="lazy">
+   <div class="b"><h3>${p.name}</h3><p>${p.desc}</p><div class="price">${fmt(p.price)}</div>
+    <div class="two">
+     ${p.noSize?"":`<label class="sel">Размер<select id="s${p.id}">${SIZES.map(s=>`<option>${s}</option>`).join("")}</select></label>`}
+     <label class="sel">Цвет<select id="c${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join("")}</select></label>
+    </div>
+    <button class="add" id="a${p.id}" onclick="add(${p.id})">В корзину</button>
+   </div></div>`).join("");
+}
+function add(id){
+  const p=P.find(x=>x.id===id);
+  const size=p.noSize?"":$("s"+id).value, color=$("c"+id).value, key=id+"|"+size+"|"+color;
+  const ex=cart.find(i=>i.key===key); ex?ex.q++:cart.push({key,id,size,color,q:1});
+  save();renderCart();
+  const b=$("a"+id);b.textContent="✓ Добавлено";b.classList.add("ok");
+  setTimeout(()=>{b.textContent="В корзину";b.classList.remove("ok")},1300);
+}
+function chg(k,d){const i=cart.find(x=>x.key===k);i.q+=d;if(i.q<1)cart=cart.filter(x=>x!==i);save();renderCart()}
+function total(){return cart.reduce((s,i)=>s+P.find(x=>x.id===i.id).price*i.q,0)}
+function renderCart(){
+  const n=cart.reduce((a,i)=>a+i.q,0);
+  $("cnt").textContent=n;$("barCnt").textContent=n;$("barSum").textContent=fmt(total());$("sum").textContent=fmt(total());
+  $("bar").classList.toggle("on",n>0);
+  $("items").innerHTML=cart.length?cart.map(i=>{const p=P.find(x=>x.id===i.id);
+   return `<div class="item"><img src="${p.img}" alt=""><div class="t">${p.name}<small>${[i.size&&"Размер "+i.size,i.color].filter(Boolean).join(" · ")}</small>
+   <div class="q"><button onclick="chg('${i.key}',-1)">−</button>${i.q}<button onclick="chg('${i.key}',1)">+</button></div></div><b>${fmt(p.price*i.q)}</b></div>`}).join("")
+   :`<div class="empty">Корзина пустая.<br>Выберите что-нибудь в каталоге.</div>`;
+}
+function wa(text){
+  const a=document.createElement("a");
+  a.href="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(text);a.target="_blank";a.rel="noopener";
+  document.body.appendChild(a);a.click();a.remove();
+}
+function sendOrder(e){
+  e.preventDefault();
+  if(!cart.length){toast("Корзина пустая");return}
+  const lines=cart.map((i,n)=>{const p=P.find(x=>x.id===i.id);
+    return `${n+1}. ${p.name}${i.size?", размер "+i.size:""}, ${i.color} — ${i.q} шт. × ${fmt(p.price)}`});
+  const dlv=document.querySelector("input[name=dlv]:checked").value;
+  wa(`Ассаляму алейкум! Заказ с сайта:\n\n${lines.join("\n")}\n\nИтого: ${fmt(total())}\n\nИмя: ${$("oName").value}\nТелефон: ${$("oPhone").value}\n${dlv}${$("oAddr").value?": "+$("oAddr").value:""}${$("oNote").value?"\nКомментарий: "+$("oNote").value:""}`);
+}
+function sendCustom(e){
+  e.preventDefault();
+  wa(`Ассаляму алейкум! Заявка на пошив:\n\nИзделие: ${$("cType").value}\nРост: ${$("cH").value||"—"}\nОбхват груди: ${$("cB").value||"—"}\nЦвет: ${$("cColor").value||"—"}\nПожелания: ${$("cNote").value||"—"}\n\nИмя: ${$("cName").value}\nТелефон: ${$("cPhone").value}`);
+}
+function openCart(){$("drawer").classList.add("on");$("ov").classList.add("on")}
+function closeCart(){$("drawer").classList.remove("on");$("ov").classList.remove("on")}
+function toast(t){const el=$("toast");el.textContent=t;el.classList.add("on");setTimeout(()=>el.classList.remove("on"),1600)}
+renderFilters();renderGrid();renderCart();
+</script>
+</body>
+</html>
