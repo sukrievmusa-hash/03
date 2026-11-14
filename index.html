@@ -283,7 +283,7 @@ function renderGrid(){
 
 /* ---- конструктор ---- */
 /* превью с перекраской */
-const PREV={1:{base:[50,62,98],t:[55,115]},2:{base:[58,59,68],t:[45,95]},3:{base:[14,13,17],t:[45,85]},
+const PREV={1:{base:[50,62,98],t:[55,115]},2:{base:[58,59,68],t:[45,95]},3:{base:[14,13,17],t:[28,55],close:0},
  4:{base:[72,66,70],t:[40,85]},5:{base:[175,135,130],t:[50,100]},6:{base:[215,142,137],hue:[4,22],sat:.15}};
 const cache={};
 function rgb2hsl(r,g,b){r/=255;g/=255;b/=255;const M=Math.max(r,g,b),m=Math.min(r,g,b),l=(M+m)/2;let h=0,s=0;
@@ -300,18 +300,44 @@ async function paint(){
   cv.width=w;cv.height=h;const x=cv.getContext("2d");
   if(cfg.color===p.def||cfg.color==="Свой цвет"||!d){x.drawImage(im,0,0);return}
   const cfgP=PREV[p.id],[br,bg,bb]=cfgP.base,[t0,t1]=cfgP.t||[0,0],bl=rgb2hsl(br,bg,bb)[2],bh=rgb2hsl(br,bg,bb)[0]*360;
-  const [th,ts,tl]=rgb2hsl(...hexRgb(hex(cfg.color))),gain=bl<.3?1.7:1.1;
-  const out=x.createImageData(w,h),s=d.data,o=out.data;
-  for(let i=0;i<s.length;i+=4){
-    const r=s[i],g=s[i+1],b=s[i+2];let k;
+  const [th,ts,tl]=rgb2hsl(...hexRgb(hex(cfg.color)));
+  const out=x.createImageData(w,h),s=d.data,o=out.data,N=w*h;
+  // 1) мягкая маска ткани
+  const K=new Float32Array(N),L=new Float32Array(N);
+  for(let j=0,i=0;j<N;j++,i+=4){
+    const r=s[i],g=s[i+1],b=s[i+2];L[j]=(r*.299+g*.587+b*.114)/255;let k;
     if(cfgP.hue){const [ph,ps]=rgb2hsl(r,g,b);let dh=Math.abs(ph*360-bh);dh=Math.min(dh,360-dh);
       const kh=dh<=cfgP.hue[0]?1:dh>=cfgP.hue[1]?0:1-(dh-cfgP.hue[0])/(cfgP.hue[1]-cfgP.hue[0]);
-      const ks=Math.min(1,Math.max(0,(ps-cfgP.sat)/.1));k=kh*ks}
+      k=kh*Math.min(1,Math.max(0,(ps-cfgP.sat)/.1))}
     else{const dist=Math.hypot(r-br,g-bg,b-bb);k=dist<=t0?1:dist>=t1?0:1-(dist-t0)/(t1-t0)}
+    if(!cfgP.hue&&bl<.3&&cfgP.close!==0&&L[j]<bl+.04)k=1; // глубокие тени тёмной ткани
+    K[j]=k}
+  // 2) закрываем дыры от бликов и складок: расширить, потом сузить
+  const morph=(src,rad,isMax)=>{const t=new Float32Array(N),u=new Float32Array(N);
+    for(let y=0;y<h;y++)for(let X=0;X<w;X++){let v=isMax?0:1;for(let dx=-rad;dx<=rad;dx++){const xx=X+dx;if(xx<0||xx>=w)continue;const q=src[y*w+xx];v=isMax?Math.max(v,q):Math.min(v,q)}t[y*w+X]=v}
+    for(let y=0;y<h;y++)for(let X=0;X<w;X++){let v=isMax?0:1;for(let dy=-rad;dy<=rad;dy++){const yy=y+dy;if(yy<0||yy>=h)continue;const q=t[yy*w+X];v=isMax?Math.max(v,q):Math.min(v,q)}u[y*w+X]=v}
+    return u};
+  const core=new Float32Array(N);for(let j=0;j<N;j++)core[j]=K[j]>.5?1:0;
+  const R=cfgP.close===0?0:Math.round(w/100);
+  const closed=R?morph(morph(core,R,true),R,false):core;
+  const M=new Float32Array(N);for(let j=0;j<N;j++)M[j]=Math.max(K[j],closed[j]);
+  const ring=morph(M,2,true);
+  // 3) перекраска с сохранением светотени
+  const lo=cfgP.hue||cfgP.noring?0:1, gain=bl<.3?2.1:1.25;
+  for(let j=0,i=0;j<N;j++,i+=4){
+    const r=s[i],g=s[i+1],b=s[i+2];
+    let k=M[j],bgMix=0;
+    if(lo&&k<.98&&ring[j]>0){ // край на светлом фоне: оценка прозрачности
+      const al=Math.min(1,Math.max(0,(.97-L[j])/(.97-bl)));
+      if(al>k){k=1;bgMix=1-al}
+    }
     if(k<=0){o[i]=r;o[i+1]=g;o[i+2]=b;o[i+3]=255;continue}
-    const l=(r*.299+g*.587+b*.114)/255;
-    const nl=Math.min(.97,Math.max(.03,tl+(l-bl)*gain));
-    const [nr,ng,nb]=hsl2rgb(th,ts,nl);
+    const dl=bgMix?0:(L[j]-bl);
+    let nl=tl+dl*gain*(dl>0?(1-tl)*1.6+.25:1);
+    nl=Math.min(.98,Math.max(.03,nl));
+    const ns=ts*(nl>.85?Math.max(.35,1-(nl-.85)*4):1);
+    let [nr,ng,nb]=hsl2rgb(th,ns,nl);
+    if(bgMix){nr=nr*(1-bgMix)+255*bgMix;ng=ng*(1-bgMix)+255*bgMix;nb=nb*(1-bgMix)+255*bgMix}
     o[i]=r+(nr-r)*k;o[i+1]=g+(ng-g)*k;o[i+2]=b+(nb-b)*k;o[i+3]=255;
   }
   x.putImageData(out,0,0);
