@@ -109,6 +109,33 @@ footer a{color:var(--accent);font-weight:600;text-decoration:none;margin-right:1
 .df .green{width:100%}
 .hint{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
 
+/* конструктор */
+.badge{display:inline-block;background:var(--accent-l);color:var(--accent);font-size:12px;font-weight:600;border-radius:6px;padding:2px 8px;align-self:flex-start}
+.price small{font-size:13px;font-weight:500;color:var(--muted)}
+.mk{position:fixed;inset:0;z-index:55;display:none;align-items:flex-end;justify-content:center}
+.mk.on{display:flex}
+.mk .bg{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.mbox{position:relative;background:var(--bg);width:min(560px,100%);max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:0 0 16px}
+@media(min-width:700px){.mk{align-items:center}.mbox{border-radius:20px}}
+.mtop{display:flex;gap:12px;align-items:center;padding:14px 16px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2}
+.mtop img{width:64px;height:64px;border-radius:10px;object-fit:cover}
+.mtop h3{font-size:16px;line-height:1.25;flex:1}
+.mtop .chip{width:34px;height:34px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);flex:none}
+.step{padding:14px 16px 4px}
+.step h4{font-size:14px;margin-bottom:8px;display:flex;justify-content:space-between}
+.step h4 span{font-weight:500;color:var(--muted)}
+.sw{display:flex;flex-wrap:wrap;gap:10px}
+.sw button{width:40px;height:40px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);padding:0}
+.sw button.on{box-shadow:0 0 0 2px var(--accent)}
+.sw button.own{background:conic-gradient(#e9b8b0,#c9d0e6,#b8d8c0,#efe0b0,#e9b8b0);font-size:18px;color:#fff;text-shadow:0 0 3px rgba(0,0,0,.5)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 14px;font-size:14px;color:var(--text)}
+.pills button.on{border-color:var(--accent);background:var(--accent-l);font-weight:600}
+.step .note{font-size:12px;color:var(--muted);margin-top:6px}
+.meas{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.mfoot{padding:14px 16px 0;display:flex;gap:10px;align-items:center}
+.mfoot .price{flex:1}
+.mfoot .add{flex:2}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--text);color:#fff;padding:10px 18px;border-radius:10px;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:60}
 .toast.on{opacity:1}
 </style>
@@ -123,14 +150,14 @@ footer a{color:var(--accent);font-weight:600;text-decoration:none;margin-right:1
 <main class="wrap">
   <section class="intro">
     <h1>Джилбабы, абайи, химары и никабы</h1>
-    <p>Шьём сами, в Алматы. Можно выбрать готовую модель или заказать пошив в нужном цвете и по вашим меркам.</p>
-    <div class="info"><span>🕐 Заказы принимаем круглосуточно</span><span>🎨 Пошив в любой расцветке</span><span>📦 Доставка по Казахстану</span></div>
+    <p>Готовых вещей на складе нет — каждую модель шьём под вас: в выбранном цвете и по вашему размеру.</p>
+    <div class="info"><span>✂️ Всё шьём на заказ</span><span>🎨 Любая расцветка</span><span>🕐 Заказы круглосуточно</span><span>📦 Доставка по Казахстану</span></div>
   </section>
 
   <div class="how">
-    <div><b>1</b> Выберите модель, размер и цвет</div>
-    <div><b>2</b> Нажмите «В корзину», затем «Оформить»</div>
-    <div><b>3</b> Заказ уйдёт нам в WhatsApp — мы ответим</div>
+    <div><b>1</b> Выберите модель и нажмите «Собрать»</div>
+    <div><b>2</b> Выберите цвет, размер и детали</div>
+    <div><b>3</b> Отправьте заказ в WhatsApp — уточним сроки</div>
   </div>
 
   <h2 id="catalog">Каталог</h2>
@@ -139,8 +166,8 @@ footer a{color:var(--accent);font-weight:600;text-decoration:none;margin-right:1
 
   <section class="custom" id="custom">
     <div>
-      <h2>Пошив на заказ</h2>
-      <p>Нужен другой цвет, длина или своя модель? Заполните форму — мы напишем в WhatsApp, подберём ткань и скажем цену.</p>
+      <h2>Своя модель</h2>
+      <p>Нужно то, чего нет в каталоге? Опишите идею — мы напишем в WhatsApp, подберём ткань и скажем цену.</p>
     </div>
     <form onsubmit="sendCustom(event)">
       <input id="cName" placeholder="Имя" required>
@@ -154,9 +181,10 @@ footer a{color:var(--accent);font-weight:600;text-decoration:none;margin-right:1
   </section>
 
   <h2>Вопросы</h2>
-  <details><summary>Как узнать свой размер?</summary><p>Нужны рост и обхват груди. Если не уверены — выберите «По меркам» и напишите их в комментарии к заказу.</p></details>
-  <details><summary>Можно другой цвет?</summary><p>Да. Выберите «Другой цвет» и напишите, какой нужен.</p></details>
-  <details><summary>Как оплатить и сколько ждать?</summary><p>Оплату и сроки подтвердим в WhatsApp после того, как получим заказ.</p></details>
+  <details><summary>Почему нет готовых вещей?</summary><p>Мы шьём каждую вещь под конкретный заказ — так вы получаете нужный цвет и размер.</p></details>
+  <details><summary>Как узнать свой размер?</summary><p>Достаточно роста и обхвата груди. В конструкторе выберите «По меркам» и впишите их.</p></details>
+  <details><summary>Нужного цвета нет в списке?</summary><p>Нажмите разноцветный кружок «Свой цвет» и опишите оттенок — можно прислать фото в WhatsApp.</p></details>
+  <details><summary>Как оплатить и сколько ждать?</summary><p>Оплату и срок пошива подтвердим в WhatsApp после того, как получим заказ.</p></details>
 </main>
 
 <footer><div class="wrap row">
@@ -184,7 +212,7 @@ footer a{color:var(--accent);font-weight:600;text-decoration:none;margin-right:1
         <label><input type="radio" name="dlv" value="Самовывоз">Самовывоз</label>
       </div>
       <input id="oAddr" placeholder="Город, адрес">
-      <textarea id="oNote" rows="2" placeholder="Комментарий (рост, мерки, пожелания)"></textarea>
+      <textarea id="oNote" rows="2" placeholder="Комментарий (пожелания)"></textarea>
     </form>
   </div>
   <div class="df">
@@ -194,26 +222,44 @@ footer a{color:var(--accent);font-weight:600;text-decoration:none;margin-right:1
   </div>
 </aside>
 
+<div class="mk" id="mk">
+  <div class="bg" onclick="closeMk()"></div>
+  <div class="mbox" id="mbox"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 // TODO: номер WhatsApp ателье — международный формат, без + и пробелов
 const WA_NUMBER = "77000000000";
 
-const P = [
- {id:1,cat:"Джилбабы",name:"Джилбаб-двойка, синий",desc:"Накидка и юбка, свободный крой",price:18500,img:"images/jilbab-siniy.jpg",colors:["Синий","Чёрный","Другой цвет"]},
- {id:2,cat:"Абайи",name:"Абайя с воланами, серая",desc:"Воланы по низу и на рукавах",price:19900,img:"images/abaya-volany.jpg",colors:["Серый","Другой цвет"]},
- {id:3,cat:"Абайи",name:"Абайя с узорными рукавами",desc:"Чёрная, рукава из светлой ткани с принтом",price:18500,img:"images/abaya-uzor.jpg",colors:["Чёрный/белый","Другой цвет"]},
- {id:4,cat:"Абайи",name:"Абайя «батвинг», шоколад",desc:"Рукав «летучая мышь»",price:14800,img:"images/abaya-batving.jpg",colors:["Шоколад","Чёрный","Другой цвет"]},
- {id:5,cat:"Химары",name:"Длинный химар, пудровый",desc:"Хорошо закрывает фигуру",price:15400,img:"images/himar-pudra.jpg",colors:["Пудровый","Другой цвет"]},
- {id:6,cat:"Никабы",name:"Никаб классический, без перегородки",desc:"Шьём в любой расцветке",price:3200,img:"images/nikab.jpg",colors:["Пудровый","Чёрный","Другой цвет"],noSize:true}
+const COLORS=[
+ ["Чёрный","#1d1b1c"],["Графит","#5d5c61"],["Тёмно-синий","#2c3a63"],["Изумрудный","#2f5d50"],["Хаки","#7a7558"],
+ ["Шоколад","#5a3e36"],["Мокко","#8a6a5a"],["Бежевый","#d8c3a8"],["Молочный","#f1ebe1"],["Пудровый","#d9a3a0"],
+ ["Пыльная роза","#b97d7d"],["Бордовый","#6e2a35"],["Лавандовый","#a99bbd"],["Голубой","#a9c1d6"]
 ];
-const SIZES=["S","M","L","XL","По меркам"];
+const SIZES=["S (42–44)","M (46–48)","L (50–52)","XL (54–56)","По меркам"];
+const P = [
+ {id:1,cat:"Джилбабы",name:"Джилбаб-двойка",desc:"Накидка и юбка, свободный крой",price:18500,img:"images/jilbab-siniy.jpg",def:"Тёмно-синий",
+  opts:[{k:"Длина накидки",v:["До колен","До середины икры","В пол"]},{k:"Юбка",v:["На резинке","На завязках"]}]},
+ {id:2,cat:"Абайи",name:"Абайя с воланами",desc:"Воланы по низу и на рукавах",price:19900,img:"images/abaya-volany.jpg",def:"Графит",
+  opts:[{k:"Длина",v:["Стандарт","Длиннее на 5 см","Короче на 5 см"]}]},
+ {id:3,cat:"Абайи",name:"Абайя с узорными рукавами",desc:"Рукава из светлой ткани с принтом",price:18500,img:"images/abaya-uzor.jpg",def:"Чёрный",
+  opts:[{k:"Рукава",v:["Узор как на фото","Однотонные"]},{k:"Длина",v:["Стандарт","Длиннее на 5 см","Короче на 5 см"]}]},
+ {id:4,cat:"Абайи",name:"Абайя «батвинг»",desc:"Рукав «летучая мышь», легко надевать",price:14800,img:"images/abaya-batving.jpg",def:"Шоколад",
+  opts:[{k:"Манжеты",v:["С манжетами","Без манжет"]},{k:"Длина",v:["Стандарт","Длиннее на 5 см","Короче на 5 см"]}]},
+ {id:5,cat:"Химары",name:"Длинный химар",desc:"Хорошо закрывает фигуру",price:15400,img:"images/himar-pudra.jpg",def:"Пудровый",
+  opts:[{k:"Длина",v:["До бёдер","До колен","Ниже колен"]}]},
+ {id:6,cat:"Никабы",name:"Классический никаб без перегородки",desc:"1-слойный, на завязках",price:3200,img:"images/nikab.jpg",def:"Пыльная роза",noSize:true,
+  opts:[{k:"Слои",v:["1 слой","2 слоя","3 слоя"],note:"Цена указана за 1 слой, за 2–3 слоя уточним"},{k:"Крепление",v:["Завязки","Резинка"]}]}
+];
 const fmt=n=>n.toLocaleString("ru-RU")+" ₸";
+const hex=n=>(COLORS.find(c=>c[0]===n)||[0,"#ddd"])[1];
 const $=id=>document.getElementById(id);
-let cart=[],filter="Все";
-try{cart=JSON.parse(localStorage.getItem("wos_cart"))||[]}catch(e){}
-function save(){try{localStorage.setItem("wos_cart",JSON.stringify(cart))}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let cart=[],filter="Все",cfg=null;
+try{cart=JSON.parse(localStorage.getItem("wos_cart2"))||[]}catch(e){}
+function save(){try{localStorage.setItem("wos_cart2",JSON.stringify(cart))}catch(e){}}
 
 function renderFilters(){
   const cats=["Все",...new Set(P.map(p=>p.cat))];
@@ -223,21 +269,52 @@ function setFilter(c){filter=c;renderFilters();renderGrid()}
 function renderGrid(){
   $("grid").innerHTML=P.filter(p=>filter==="Все"||p.cat===filter).map(p=>`
   <div class="card"><img src="${p.img}" alt="${p.name}" loading="lazy">
-   <div class="b"><h3>${p.name}</h3><p>${p.desc}</p><div class="price">${fmt(p.price)}</div>
-    <div class="two">
-     ${p.noSize?"":`<label class="sel">Размер<select id="s${p.id}">${SIZES.map(s=>`<option>${s}</option>`).join("")}</select></label>`}
-     <label class="sel">Цвет<select id="c${p.id}">${p.colors.map(c=>`<option>${c}</option>`).join("")}</select></label>
-    </div>
-    <button class="add" id="a${p.id}" onclick="add(${p.id})">В корзину</button>
+   <div class="b"><span class="badge">Под заказ</span><h3>${p.name}</h3><p>${p.desc}</p>
+    <div class="price">${fmt(p.price)}</div>
+    <button class="add" onclick="openMk(${p.id})">Собрать</button>
    </div></div>`).join("");
 }
-function add(id){
+
+/* ---- конструктор ---- */
+function openMk(id){
   const p=P.find(x=>x.id===id);
-  const size=p.noSize?"":$("s"+id).value, color=$("c"+id).value, key=id+"|"+size+"|"+color;
-  const ex=cart.find(i=>i.key===key); ex?ex.q++:cart.push({key,id,size,color,q:1});
-  save();renderCart();
-  const b=$("a"+id);b.textContent="✓ Добавлено";b.classList.add("ok");
-  setTimeout(()=>{b.textContent="В корзину";b.classList.remove("ok")},1300);
+  cfg={id,color:p.def,own:"",size:p.noSize?"":"M (46–48)",h:"",b:"",opts:Object.fromEntries(p.opts.map(o=>[o.k,o.v[0]])),q:1};
+  drawMk();$("mk").classList.add("on");document.body.style.overflow="hidden";
+}
+function closeMk(){$("mk").classList.remove("on");document.body.style.overflow=""}
+function drawMk(){
+  const p=P.find(x=>x.id===cfg.id),own=cfg.color==="Свой цвет";
+  $("mbox").innerHTML=`
+  <div class="mtop"><img src="${p.img}" alt=""><h3>${p.name}<br><small style="color:var(--muted);font-weight:500">Шьём под ваш заказ</small></h3>
+   <div class="chip" style="background:${own?"conic-gradient(#e9b8b0,#c9d0e6,#b8d8c0,#efe0b0,#e9b8b0)":hex(cfg.color)}"></div>
+   <button class="x" onclick="closeMk()" aria-label="Закрыть">×</button></div>
+  <div class="step"><h4>Цвет <span>${own?(esc(cfg.own)||"свой"):cfg.color}</span></h4>
+   <div class="sw">${COLORS.map(c=>`<button class="${cfg.color===c[0]?"on":""}" style="background:${c[1]}" title="${c[0]}" aria-label="${c[0]}" onclick="setC('color','${c[0]}')"></button>`).join("")}
+   <button class="own ${own?"on":""}" title="Свой цвет" onclick="setC('color','Свой цвет')">+</button></div>
+   ${own?`<input style="margin-top:8px" placeholder="Опишите цвет, напр. «оливковый, как на фото»" value="${esc(cfg.own)}" oninput="cfg.own=this.value">`:""}
+  </div>
+  ${p.noSize?"":`<div class="step"><h4>Размер</h4>
+   <div class="pills">${SIZES.map(s=>`<button class="${cfg.size===s?"on":""}" onclick="setC('size','${s}')">${s}</button>`).join("")}</div>
+   ${cfg.size==="По меркам"?`<div class="meas"><input inputmode="numeric" placeholder="Рост, см" value="${esc(cfg.h)}" oninput="cfg.h=this.value"><input inputmode="numeric" placeholder="Обхват груди, см" value="${esc(cfg.b)}" oninput="cfg.b=this.value"></div>`:""}
+  </div>`}
+  ${p.opts.map((o,i)=>`<div class="step"><h4>${o.k}</h4>
+   <div class="pills">${o.v.map(v=>`<button class="${cfg.opts[o.k]===v?"on":""}" onclick="setO(${i},'${v}')">${v}</button>`).join("")}</div>
+   ${o.note?`<div class="note">${o.note}</div>`:""}</div>`).join("")}
+  <div class="step"><h4>Количество</h4><div class="q"><button onclick="cfg.q=Math.max(1,cfg.q-1);drawMk()">−</button>${cfg.q}<button onclick="cfg.q++;drawMk()">+</button></div></div>
+  <div class="mfoot"><div class="price">${fmt(p.price*cfg.q)}</div><button class="add" onclick="addCfg()">Добавить в заказ</button></div>`;
+}
+function setC(k,v){cfg[k]=v;drawMk()}
+function setO(i,v){const p=P.find(x=>x.id===cfg.id);cfg.opts[p.opts[i].k]=v;drawMk()}
+function addCfg(){
+  if(cfg.color==="Свой цвет"&&!cfg.own.trim()){toast("Опишите свой цвет");return}
+  if(cfg.size==="По меркам"&&(!cfg.h||!cfg.b)){toast("Впишите рост и обхват груди");return}
+  cart.push({...cfg,opts:{...cfg.opts},key:Date.now()+""});
+  save();renderCart();closeMk();toast("Добавлено в заказ ✓");
+}
+function details(i){
+  const color=i.color==="Свой цвет"?"Цвет: "+i.own:"Цвет: "+i.color;
+  const size=i.size?(i.size==="По меркам"?`Мерки: рост ${i.h}, грудь ${i.b}`:"Размер "+i.size):"";
+  return [color,size,...Object.entries(i.opts).map(([k,v])=>k+": "+v)].filter(Boolean);
 }
 function chg(k,d){const i=cart.find(x=>x.key===k);i.q+=d;if(i.q<1)cart=cart.filter(x=>x!==i);save();renderCart()}
 function total(){return cart.reduce((s,i)=>s+P.find(x=>x.id===i.id).price*i.q,0)}
@@ -246,9 +323,9 @@ function renderCart(){
   $("cnt").textContent=n;$("barCnt").textContent=n;$("barSum").textContent=fmt(total());$("sum").textContent=fmt(total());
   $("bar").classList.toggle("on",n>0);
   $("items").innerHTML=cart.length?cart.map(i=>{const p=P.find(x=>x.id===i.id);
-   return `<div class="item"><img src="${p.img}" alt=""><div class="t">${p.name}<small>${[i.size&&"Размер "+i.size,i.color].filter(Boolean).join(" · ")}</small>
+   return `<div class="item"><img src="${p.img}" alt=""><div class="t">${p.name}<small>${details(i).map(esc).join(" · ")}</small>
    <div class="q"><button onclick="chg('${i.key}',-1)">−</button>${i.q}<button onclick="chg('${i.key}',1)">+</button></div></div><b>${fmt(p.price*i.q)}</b></div>`}).join("")
-   :`<div class="empty">Корзина пустая.<br>Выберите что-нибудь в каталоге.</div>`;
+   :`<div class="empty">Заказ пока пустой.<br>Нажмите «Собрать» у любой модели.</div>`;
 }
 function wa(text){
   const a=document.createElement("a");
@@ -259,9 +336,9 @@ function sendOrder(e){
   e.preventDefault();
   if(!cart.length){toast("Корзина пустая");return}
   const lines=cart.map((i,n)=>{const p=P.find(x=>x.id===i.id);
-    return `${n+1}. ${p.name}${i.size?", размер "+i.size:""}, ${i.color} — ${i.q} шт. × ${fmt(p.price)}`});
+    return `${n+1}. ${p.name} — ${i.q} шт. × ${fmt(p.price)}\n   ${details(i).join("\n   ")}`});
   const dlv=document.querySelector("input[name=dlv]:checked").value;
-  wa(`Ассаляму алейкум! Заказ с сайта:\n\n${lines.join("\n")}\n\nИтого: ${fmt(total())}\n\nИмя: ${$("oName").value}\nТелефон: ${$("oPhone").value}\n${dlv}${$("oAddr").value?": "+$("oAddr").value:""}${$("oNote").value?"\nКомментарий: "+$("oNote").value:""}`);
+  wa(`Ассаляму алейкум! Заказ на пошив с сайта:\n\n${lines.join("\n")}\n\nИтого: ${fmt(total())}\n\nИмя: ${$("oName").value}\nТелефон: ${$("oPhone").value}\n${dlv}${$("oAddr").value?": "+$("oAddr").value:""}${$("oNote").value?"\nКомментарий: "+$("oNote").value:""}`);
 }
 function sendCustom(e){
   e.preventDefault();
